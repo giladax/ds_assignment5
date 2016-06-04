@@ -3,11 +3,18 @@ TODO!!
 1. Sort X values (Check last index of given point array. 
 				  If value is less than or equal to n-1, use Bucket Sort (Because it's either the first company with this index in order or the second company with max value = n-1. 
 				  Else, the array is sorted, just deep copy it). 
-Build a Sorted Heap (for X values) using the previously sorted array.
-Build a second Heap (not sorted) for Y values. This will take O(N)
+Build a Sorted Minimum? Heap (for X values) using the previously sorted array.
+Build two heaps on two arrays the size of n/2 + log(n) (not sorted) for Y values. Set the median at a variable and set all other values to the min heap if they're smaller
+or to the max heap if they're larger. Then BUILD a Max Heap for the first array and a Min Heap for the second. This will take O(N)
 				  
 2. getPointsInRange: Find XLeft (Binary search - O(logN)) and select all k values till XRight.
-3. FIND A WAY TO KEEP X HEAP ORDERED! Or find a different solution for getPointsInRange
-
-
-Use question 2 in the practice (ClogC).
+3. numOfPointsInRange: Find XLeft and XRight positions (Binary search - 2*O(logN)) and subtract right from left
+4. FIND A WAY TO KEEP X HEAP ORDERED! Or find a different solution for getPointsInRange
+5. getMedianPoints: Find indicies range for medians. Use Q2 algorithm to return (floor(size/2) - Left median index) maximal points and 
+(Right median index - floor(size/2)) minimal points and the median itself.
+6. removeMedianPoint: (Y DT) - Remove median, save it for later. If max_heap_size > = min_heap_size Extract the maximum from max heap and set it as the new median. 
+Else Extract minimum from min heap. heap_size--. 
+(X DT) - Remove Point from X sorted Heap pointed to by the removed median.
+7. addPoint: (Y DT) - If p.Y is larger than median, put p in min heap at A[min_heap_size] and call MinHeapify. Else do the opposite with max heap. 
+There will be log(n) space for such calls.
+(X DT) - 
