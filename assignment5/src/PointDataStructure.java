@@ -44,7 +44,7 @@ public class PointDataStructure implements PDT {
 		
 		// Build heaps, O(n) each
 		smallerPoints = new MaxHeap(lessThanMed);
-		moreThanMed = new MinHeap(moreThanMed);
+		largerPoints = new MinHeap(moreThanMed);
 	}
 
 	@Override
