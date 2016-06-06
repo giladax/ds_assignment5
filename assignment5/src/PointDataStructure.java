@@ -28,6 +28,23 @@ public class PointDataStructure implements PDT {
 				sortedXvalues[i] = new Point(points[i]);
 			}
 		}
+		
+		// Handle Y values in O(n)
+		LinkedList lessThanMed = new LinkedList();
+		LinkedList moreThanMed = new LinkedList();
+		
+		for (int i = 0; i < points.length; i++) {
+			// If Y is smaller than median (or Y is equal but X is smaller)
+			if ((points[i].getY() < median.getY()) || (points[i].getY() == median.getY() && points[i].getX() < median.getX())) {
+				lessThanMed.add(points[i]);
+			} else {
+				moreThanMed.add(points[i]);
+			}
+		}
+		
+		// Build heaps, O(n) each
+		smallerPoints = new MaxHeap(lessThanMed);
+		moreThanMed = new MinHeap(moreThanMed);
 	}
 
 	@Override
