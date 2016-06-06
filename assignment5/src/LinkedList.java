@@ -37,6 +37,10 @@ public class LinkedList implements Iterable<Point> {
 		
 		return null;
 	}
+	
+	public int size() {
+		return size;
+	}
 
 	@Override
 	public Iterator<Point> iterator() {
