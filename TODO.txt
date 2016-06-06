@@ -2,7 +2,7 @@ TODO!!
 
 1. Sort X values (Check last index of given point array. 
 				  If value is less than or equal to n-1, use Bucket Sort (Because it's either the first company with this index in order or the second company with max value = n-1. 
-				  Else, the array is sorted, just deep copy it). 
+				  Else, the array is sorted, just deep copy it).
 Build a Sorted Minimum? Heap (for X values) using the previously sorted array.
 Build two heaps on two arrays the size of n/2 + log(n) (not sorted) for Y values. Set the median at a variable and set all other values to the min heap if they're smaller
 or to the max heap if they're larger. Then BUILD a Max Heap for the first array and a Min Heap for the second. This will take O(N)
@@ -15,6 +15,6 @@ or to the max heap if they're larger. Then BUILD a Max Heap for the first array 
 6. removeMedianPoint: (Y DT) - Remove median, save it for later. If max_heap_size > = min_heap_size Extract the maximum from max heap and set it as the new median. 
 Else Extract minimum from min heap. heap_size--. 
 (X DT) - Remove Point from X sorted Heap pointed to by the removed median.
-7. addPoint: (Y DT) - If p.Y is larger than median, put p in min heap at A[min_heap_size] and call MinHeapify. Else do the opposite with max heap. 
+7. addPoint: (Y DT) - If p.Y is larger than median, put p in min heap at A[min_heap_size] and call MinHeapify. Else do the opposite with max heap. Re-set median.
 There will be log(n) space for such calls.
 (X DT) - 
