@@ -4,7 +4,7 @@ public abstract class Heap {
 
 	public Heap(Point[] arr) {
 		size = arr.length;
-		this.arr = new Point[size + (int) (15 * Math.log(size))];
+		this.arr = new Point[size + (int) (Constants.EXTRA_SIZE * Math.log(size))];
 		
 		// Deep copy array
 		for (int i = 0; i < arr.length; i++) {
@@ -13,7 +13,11 @@ public abstract class Heap {
 
 		buildHeap();
 	}
-
+	public void add(Point p){
+		//TODO
+	}
+	public abstract Point[] getMinMaxValues(int num);
+	public abstract Point extract();
 	public abstract void heapify(int i);
 
 	private void buildHeap() {
