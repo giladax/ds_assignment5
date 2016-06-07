@@ -1,27 +1,23 @@
+public class MaxHeap extends Heap {
 
-public class MaxHeap extends Heap{
-
-	public MaxHeap(Point[] arr) {
-		super(arr);
+	public MaxHeap(LinkedList list) {
+		super(list);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void heapify(int i) {
-		// TODO Auto-generated method stub
-		
+	public boolean isRelationInvalid(Point child, Point parent) {
+		int cY = child.getY();
+		int pY = parent.getY();
+		int cX = child.getX();
+		int pX = parent.getX();
+		return (cY > pY) || (cY == pY && cX > pX);
 	}
 
 	@Override
-	public Point[] getMinMaxValues(int num) {
+	public void insert(Point p) {
 		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Point extract() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
