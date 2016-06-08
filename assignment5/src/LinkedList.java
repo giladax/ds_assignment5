@@ -39,7 +39,8 @@ public class LinkedList implements Iterable<Point> {
 	}
 	
 	public void merge(LinkedList other) {
-		// TODO Complete
+		tail.setNext(other.head);
+		tail = other.tail;
 	}
 	
 	public int size() {
