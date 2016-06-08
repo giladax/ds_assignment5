@@ -79,19 +79,12 @@ public class PointDataStructure implements PDT {
 
 	@Override
 	public int numOfPointsInRange(int XLeft, int XRight) {
-		return xvalues.getPointsInRange(XLeft, XRight).length;
+		return xvalues.numOfPointsInRange(XLeft, XRight);
 	}
 
 	@Override
 	public double averageHeightInRange(int XLeft, int XRight) {
-		Point[] range = getPointsInRange(XLeft, XRight);
-		double result = 0;
-
-		for (int i = 0; i < range.length; i++) {
-			result += range[i].getY();
-		}
-
-		return result / (double) range.length;
+		return xvalues.averageHeightInRange(XLeft, XRight);
 	}
 
 	@Override

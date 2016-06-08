@@ -10,12 +10,15 @@ public class BinarySearchTree {
 	private void buildTree(Point[] points, Node node, int curr, int left, int right) {
 		// If has children
 		if (left != right) {
-			int leftChild = curr - left + 1;
-			int rightChild = right - curr + 1;
-			node.setLeft(new Node(points[leftChild / 2], node));
-			node.setRight(new Node(points[rightChild / 2], node));
+			int leftChild = (curr - left + 1) / 2;
+			int rightChild = (right - curr + 1) / 2;
+			node.setLeft(new Node(points[leftChild], node));
+			node.setRight(new Node(points[rightChild], node));
 			buildTree(points, node.getLeft(), leftChild, left, curr - 1);
 			buildTree(points, node.getRight(), rightChild, curr + 1, right);
+
+			// Update other fields when coming back from the recursion
+			node.updateNode();
 		}
 	}
 
@@ -24,6 +27,7 @@ public class BinarySearchTree {
 	}
 
 	private void add(Point p, Node node) {
+		// Add new point
 		if (node.getValue().getX() > p.getX()) {
 			if (node.getLeft() == null) {
 				node.setLeft(new Node(p, node));
@@ -37,6 +41,9 @@ public class BinarySearchTree {
 				add(p, node.getRight());
 			}
 		}
+
+		// Update nodes in path from new leaf to root
+		node.updateNode();
 	}
 
 	public void remove(Point toRemove) {
@@ -54,6 +61,7 @@ public class BinarySearchTree {
 	}
 
 	private void remove(Point toRemove, Node node) {
+		// Attempt removal of given point
 		if (node.getValue().getX() == toRemove.getX()) {
 			// First try replacing node with right child, then left, then remove
 			// self
@@ -81,6 +89,9 @@ public class BinarySearchTree {
 		} else if (node.getValue().getX() < toRemove.getX()) {
 			remove(toRemove, node.getRight());
 		}
+
+		// Update nodes in path from new leaf to root
+		node.updateNode();
 	}
 
 	public Point[] getPointsInRange(int XLeft, int XRight) {
@@ -124,5 +135,25 @@ public class BinarySearchTree {
 		if (node.getRight() != null) {
 			toArray(list, node.getRight());
 		}
+	}
+
+	public double averageHeightInRange(int XLeft, int XRight) {
+		return averageHeightInRange(XLeft, XRight, root);
+	}
+
+	private double averageHeightInRange(int XLeft, int XRight, Node node) {
+		if (node.getLeft().getMinVal() >= XLeft && node.getRight().getMaxVal() <= XRight) {
+			return ((node.getLeftAverage() * node.getLeftSize() + node.getRightAverage() * node.getRightSize()
+					+ node.getValue().getY()) / (node.getLeftSize() + node.getRightSize() + 1));
+		}
+
+	}
+
+	public int numOfPointsInRange(int XLeft, int XRight) {
+		return numOfPointsInRange(XLeft, XRight, root);
+	}
+
+	private int numOfPointsInRange(int XLeft, int XRight, Node node) {
+
 	}
 }
