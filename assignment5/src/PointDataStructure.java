@@ -4,16 +4,13 @@ public class PointDataStructure implements PDT {
 	private Point median;
 	private MaxHeap smallerPoints;
 	private MinHeap largerPoints;
-	private Point[] sortedXvalues;
-	private Point[] xExtension;
+	private BinarySearchTree xvalues;
 
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public PointDataStructure(Point[] points, Point initialYMedianPoint)
 	{
 		median = new Point(initialYMedianPoint);
-		sortedXvalues = new Point[points.length];
-		xExtension = new Point[(int) (Constants.EXTRA_SIZE * Math.log(points.length))];
-		
+		Point[] sortedXvalues = new Point[points.length];		
 		
 		// First, sort X values in O(n)
 		// If value is less than or equal to n-1
@@ -29,9 +26,12 @@ public class PointDataStructure implements PDT {
 			}
 		}
 		
+		// Generate a BST for X values
+		xvalues = new BinarySearchTree(sortedXvalues);
+		
 		// Handle Y values in O(n)
-		LinkedList lessThanMed = new LinkedList();
-		LinkedList moreThanMed = new LinkedList();
+		LinkedList<Point> lessThanMed = new LinkedList<Point>();
+		LinkedList<Point> moreThanMed = new LinkedList<Point>();
 		
 		for (int i = 0; i < points.length; i++) {
 			// If Y is smaller than median (or Y is equal but X is smaller)
