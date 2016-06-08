@@ -1,35 +1,45 @@
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
 public abstract class Heap {
-	protected Point[] arr;
+	protected PointIndexPair[] arr;
 	protected int size;
 
 	public Heap(int capacity) {
 		size = 0;
-		arr = new Point[capacity];
-
+		arr = new PointIndexPair[capacity];
 	}
 
 	public Heap(LinkedList list) {
 		size = list.size();
-		this.arr = new Point[size
+		this.arr = new PointIndexPair[size
 				+ (int) (Constants.EXTRA_SIZE * Math.log(size))];
 		int idx = 0;
 
 		// Deep copy array
 		for (Point p : list) {
-			arr[idx] = new Point(p);
+			arr[idx] = new PointIndexPair(p, idx);
 			idx++;
 		}
 
 		buildHeap();
 	}
 
-	public void add(Point p) {
-		size++;
-		arr[size - 1] = new Point(p);
-		sift(size - 1);
+	public boolean add(Point p) {
+		if (size < arr.length) {
+			arr[size] = new PointIndexPair(p, size);
+			sift(size);
+			size++;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	private void add(PointIndexPair p) {
+		if (add(p.getpPoint())) {
+			arr[size - 1].setIndex(p.getIndex());
+		}
 	}
 
 	// Maintain heap properties
@@ -37,7 +47,7 @@ public abstract class Heap {
 		int left = Left(i);
 		int right = Right(i);
 		int largest = i;
-		arr[Right(i)].getY();
+
 		if (left <= size && isRelationInvalid(arr[left], arr[i])) {
 			largest = left;
 		}
@@ -49,30 +59,29 @@ public abstract class Heap {
 			heapify(largest);
 		}
 	}
-
-	public Point[] getMinMaxValues(int num) {
+	
+	public LinkedList getMinMaxValues(int num) {
 		int i = 0;
-		Point[] result = new Point[num];
+		LinkedList result = new LinkedList();
+	
 		try {
 			Heap temp = (Heap) Class.forName(this.getClass().getName())
-					.getConstructor(Integer.class).newInstance((num + 1));
+					.getConstructor(Integer.class).newInstance((num + 3));
+			temp.add(arr[0]);
+			while (i < num) {
+				temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
+				temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
+				result.add(temp.extract()); 
+				i++;
+			}
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException
 				| ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		while (i < num) {
 
-		}
 		return null;
-	}
-
-	public void insert(Point p) {
-		size++;
-		arr[size - 1] = new Point(p);
-		sift(size - 1);
 	}
 
 	public void sift(int i) {
@@ -86,15 +95,15 @@ public abstract class Heap {
 		}
 	}
 
-	public abstract boolean isRelationInvalid(Point child, Point parent);
+	public abstract boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent);
 
 	public Point extract() {
-		Point max = arr[0];
+		PointIndexPair max = arr[0];
 		swap(arr, 0, size - 1);
 		arr[size - 1] = null;
 		size--;
 		heapify(0);
-		return new Point(max);
+		return max.getpPoint();
 	}
 
 	public int getSize() {
@@ -119,8 +128,8 @@ public abstract class Heap {
 		return (i - 1) / 2;
 	}
 
-	public void swap(Point[] arr, int i, int j) {
-		Point tmp = arr[i];
+	public void swap(PointIndexPair[] arr, int i, int j) {
+		PointIndexPair tmp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = tmp;
 	}

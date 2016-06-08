@@ -4,11 +4,11 @@ public class MinHeap extends Heap {
 		super(list);
 	}
 
-	public boolean isRelationInvalid(Point child, Point parent) {
-		int cY = child.getY();
-		int pY = parent.getY();
-		int cX = child.getX();
-		int pX = parent.getX();
+	public boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent) {
+		int cY = child.getpPoint().getY();
+		int pY = parent.getpPoint().getY();
+		int cX = child.getpPoint().getX();
+		int pX = parent.getpPoint().getX();
 		return (cY < pY) || (cY == pY && cX < pX);
 	}
 
