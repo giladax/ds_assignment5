@@ -3,11 +3,21 @@ public class Node {
 	private Point value;
 	private Node left;
 	private Node right;
-	
-	public Node(Point p) {
-		value = p;
+	private Node parent;
+
+	public Node getParent() {
+		return parent;
 	}
-	
+
+	public void setParent(Node parent) {
+		this.parent = parent;
+	}
+
+	public Node(Point p, Node parent) {
+		value = p;
+		this.parent = parent;
+	}
+
 	public Point getValue() {
 		return value;
 	}
