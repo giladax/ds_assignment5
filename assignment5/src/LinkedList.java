@@ -1,8 +1,8 @@
 import java.util.Iterator;
 
-public class LinkedList implements Iterable<Point> {
-	private Link head;
-	private Link tail;
+public class LinkedList<T> implements Iterable<T> {
+	private Link<T> head;
+	private Link<T> tail;
 	private int size;
 	
 	public LinkedList() {
@@ -12,22 +12,22 @@ public class LinkedList implements Iterable<Point> {
 	}
 	
 	// O(1) addition to the tail of the list
-	public void add(Point p) {
+	public void add(T p) {
 		if (head == null) {
-			head = new Link(p);
+			head = new Link<T>(p);
 			tail = head;
 			size = 1;
 		} else {
-			tail.setNext(new Link(p));
+			tail.setNext(new Link<T>(p));
 			tail = tail.getNext();
 			size++;
 		}
 	}
 	
 	// Get item at index
-	public Point get(int index) {
+	public T get(int index) {
 		if (index < size) {
-			Link curr = head;
+			Link<T> curr = head;
 			for (int i = 0; i < index; i++) {
 				curr = curr.getNext();
 			}
@@ -43,13 +43,13 @@ public class LinkedList implements Iterable<Point> {
 	}
 
 	@Override
-	public Iterator<Point> iterator() {
+	public Iterator<T> iterator() {
 		return new ListIterator();
 	}
 	
 	
-	private class ListIterator implements Iterator<Point> {
-		private Link curr;
+	private class ListIterator implements Iterator<T> {
+		private Link<T> curr;
 		
 		public ListIterator() {
 			curr = LinkedList.this.head;
@@ -62,9 +62,9 @@ public class LinkedList implements Iterable<Point> {
 		}
 
 		@Override
-		public Point next() {
+		public T next() {
 			if (hasNext()) {
-				Link result = curr;
+				Link<T> result = curr;
 				curr = curr.getNext();
 				return result.getValue();
 			}

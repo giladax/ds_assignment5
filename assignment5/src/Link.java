@@ -1,26 +1,26 @@
 
-public class Link {
-	private Point value;
-	private Link next;
+public class Link<T> {
+	private T value;
+	private Link<T> next;
 
-	public Link(Point p) {
+	public Link(T p) {
 		this(p, null);
 	}
 
-	public Link(Point p, Link next) {
+	public Link(T p, Link<T> next) {
 		value = p;
 		this.next = next;
 	}
 	
-	public Point getValue() {
+	public T getValue() {
 		return value;
 	}
 
-	public Link getNext() {
+	public Link<T> getNext() {
 		return next;
 	}
 
-	public void setNext(Link next) {
+	public void setNext(Link<T> next) {
 		this.next = next;
 	}
 }
