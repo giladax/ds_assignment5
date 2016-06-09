@@ -9,17 +9,17 @@ public class BinarySearchTree {
 	private void buildTree(Point[] points, Node node, int curr, int left, int right) {
 		// If has children
 		if (left != right) {
-			int leftChild = (curr - left) / 2;
-			int rightChild = curr + (right - curr) / 2;
+			int leftChild = left + (curr - left) / 2;
+			int rightChild = curr + (int) Math.ceil((right - curr + 1) / 2);
 
 			// Has left child
-			if (curr != leftChild) {
+			if (curr != leftChild && leftChild >= 0) {
 				node.setLeft(new Node(points[leftChild], node));
 				buildTree(points, node.getLeft(), leftChild, left, curr - 1);
 			}
 
-			// Has left child
-			if (curr != rightChild) {
+			// Has right child
+			if (curr != rightChild && rightChild < points.length) {
 				node.setRight(new Node(points[rightChild], node));
 				buildTree(points, node.getRight(), rightChild, curr + 1, right);
 			}

@@ -35,6 +35,11 @@ public class PointDataStructure implements PDT {
 		LinkedList moreThanMed = new LinkedList();
 
 		for (int i = 0; i < points.length; i++) {
+			// Skip if current is the median
+			if (points[i].equals(median)) {
+				continue;
+			}
+			
 			// If Y is smaller than median (or Y is equal but X is smaller)
 			if ((points[i].getY() < median.getY())
 					|| (points[i].getY() == median.getY() && points[i].getX() < median.getX())) {

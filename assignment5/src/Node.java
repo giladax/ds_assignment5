@@ -22,22 +22,22 @@ public class Node {
 
 	public void updateNode() {
 		// Update all fields depending on subtrees
-		if (getRight() != null) {
-			this.setRightAverage((double) (this.getRight().getRightAverage() * this.getRight().getRightSize()
-					+ this.getRight().getValue().getY()) / (this.getRight().getRightSize() + 1));
-			this.setRightSize(this.getRight().getRightSize() + 1);
-			this.setMaxVal(this.getRight().getMaxVal());
+		if (right != null) {
+			rightAverage = (right.rightAverage * right.rightSize + right.value.getY()
+					+ right.leftAverage * right.leftSize) / (double) (right.rightSize + 1 + right.leftSize);
+			rightSize = right.rightSize + 1 + right.leftSize;
+			maxVal = right.maxVal;
 		} else {
-			this.setMaxVal(this.getValue().getY());
+			maxVal = value.getY();
 		}
 
-		if (getLeft() != null) {
-			this.setLeftAverage((double) (this.getLeft().getLeftAverage() * this.getLeft().getLeftSize()
-					+ this.getLeft().getValue().getY()) / (this.getLeft().getLeftSize() + 1));
-			this.setLeftSize(this.getLeft().getLeftSize() + 1);
-			this.setMinVal(this.getLeft().getMinVal());
+		if (left != null) {
+			leftAverage = (left.rightAverage * left.rightSize + left.value.getY() + left.leftAverage * left.leftSize)
+					/ (double) (left.rightSize + 1 + left.leftSize);
+			leftSize = left.rightSize + 1 + left.leftSize;
+			minVal = left.minVal;
 		} else {
-			this.setMinVal(this.getValue().getY());
+			minVal = value.getY();
 		}
 	}
 
