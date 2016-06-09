@@ -169,7 +169,7 @@ public class BinarySearchTree {
 
 		}
 		if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
-			AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getRight());
+			AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getLeft());
 			sum += pair.average * pair.size;
 			size += pair.size;
 
