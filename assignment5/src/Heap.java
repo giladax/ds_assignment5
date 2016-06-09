@@ -81,7 +81,7 @@ public abstract class Heap {
 			e.printStackTrace();
 		}
 
-		return null;
+		return result;
 	}
 
 	public void sift(int i) {

@@ -9,7 +9,6 @@ or to the max heap if they're larger. Then BUILD a Max Heap for the first array 
 				  
 2. getPointsInRange: Find XLeft (Binary search - O(logN)) and select all k values till XRight.
 3. numOfPointsInRange: Find XLeft and XRight positions (Binary search - 2*O(logN)) and subtract right from left
-4. FIND A WAY TO KEEP X HEAP ORDERED! Or find a different solution for getPointsInRange
 5. getMedianPoints: Find indicies range for medians. Use Q2 algorithm to return (floor(size/2) - Left median index) maximal points and 
 (Right median index - floor(size/2)) minimal points and the median itself.
 6. removeMedianPoint: (Y DT) - Remove median, save it for later. If max_heap_size > = min_heap_size Extract the maximum from max heap and set it as the new median. 
