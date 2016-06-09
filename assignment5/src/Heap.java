@@ -48,10 +48,10 @@ public abstract class Heap {
 		int right = Right(i);
 		int largest = i;
 
-		if (left <= size && isRelationInvalid(arr[left], arr[i])) {
+		if (left < size && isRelationInvalid(arr[left], arr[i])) {
 			largest = left;
 		}
-		if (right <= size && isRelationInvalid(arr[right], arr[i])) {
+		if (right < size && isRelationInvalid(arr[right], arr[i])) {
 			largest = right;
 		}
 		if (largest != i) {
