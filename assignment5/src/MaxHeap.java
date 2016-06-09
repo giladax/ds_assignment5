@@ -2,7 +2,10 @@ public class MaxHeap extends Heap {
 
 	public MaxHeap(LinkedList list) {
 		super(list);
-		// TODO Auto-generated constructor stub
+	}
+	
+	public MaxHeap(int capacity) {
+		super(capacity);
 	}
 
 	@Override

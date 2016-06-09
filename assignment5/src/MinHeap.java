@@ -3,6 +3,10 @@ public class MinHeap extends Heap {
 	public MinHeap(LinkedList list) {
 		super(list);
 	}
+	
+	public MinHeap(int capacity) {
+		super(capacity);
+	}
 
 	public boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent) {
 		int cY = child.getpPoint().getY();

@@ -66,7 +66,7 @@ public abstract class Heap {
 	
 		try {
 			Heap temp = (Heap) Class.forName(this.getClass().getName())
-					.getConstructor(Integer.class).newInstance((num + 3));
+					.getConstructor(int.class).newInstance((num + Constants.EXTRA_SIZE));
 			temp.add(arr[0]);
 			while (i < num) {
 				temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
