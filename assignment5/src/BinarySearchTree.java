@@ -6,20 +6,27 @@ public class BinarySearchTree {
 		buildTree(points, root, points.length / 2, 0, points.length);
 	}
 
-	private void buildTree(Point[] points, Node node, int curr, int left,
-			int right) {
+	private void buildTree(Point[] points, Node node, int curr, int left, int right) {
 		// If has children
 		if (left != right) {
-			int leftChild = (curr - left + 1) / 2;
-			int rightChild = (right - curr + 1) / 2;
-			node.setLeft(new Node(points[leftChild], node));
-			node.setRight(new Node(points[rightChild], node));
-			buildTree(points, node.getLeft(), leftChild, left, curr - 1);
-			buildTree(points, node.getRight(), rightChild, curr + 1, right);
+			int leftChild = (curr - left) / 2;
+			int rightChild = curr + (right - curr) / 2;
 
-			// Update other fields when coming back from the recursion
-			node.updateNode();
+			// Has left child
+			if (curr != leftChild) {
+				node.setLeft(new Node(points[leftChild], node));
+				buildTree(points, node.getLeft(), leftChild, left, curr - 1);
+			}
+
+			// Has left child
+			if (curr != rightChild) {
+				node.setRight(new Node(points[rightChild], node));
+				buildTree(points, node.getRight(), rightChild, curr + 1, right);
+			}
 		}
+
+		// Update other fields when coming back from the recursion
+		node.updateNode();
 	}
 
 	public void add(Point p) {
@@ -101,8 +108,7 @@ public class BinarySearchTree {
 		return points.toArray();
 	}
 
-	private void getPointsInRange(int XLeft, int XRight, Node node,
-			LinkedList list) {
+	private void getPointsInRange(int XLeft, int XRight, Node node, LinkedList list) {
 		// Add node in range
 		if (XLeft <= node.getValue().getX() && XRight >= node.getValue().getX()) {
 			list.add(node.getValue());
@@ -142,16 +148,13 @@ public class BinarySearchTree {
 		return averageHeightInRange(XLeft, XRight, root).average;
 	}
 
-	private AverageSizePair averageHeightInRange(int XLeft, int XRight,
-			Node node) {
+	private AverageSizePair averageHeightInRange(int XLeft, int XRight, Node node) {
 		// Fully contains range
-		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft
-				&& node.getRight() != null
+		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft && node.getRight() != null
 				&& node.getRight().getMaxVal() <= XRight) {
-			return new AverageSizePair((node.getLeftAverage()
-					* node.getLeftSize() + node.getRightAverage()
-					* node.getRightSize() + node.getValue().getY())
-					/ (node.getLeftSize() + node.getRightSize() + 1),
+			return new AverageSizePair(
+					(node.getLeftAverage() * node.getLeftSize() + node.getRightAverage() * node.getRightSize()
+							+ node.getValue().getY()) / (node.getLeftSize() + node.getRightSize() + 1),
 					node.getRightSize() + node.getLeftSize() + 1);
 		}
 
@@ -160,15 +163,13 @@ public class BinarySearchTree {
 
 		// Right bound is smaller than right subtree min value
 		if (node.getRight() != null && XRight >= node.getRight().getMinVal()) {
-			AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-					node.getRight());
+			AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getRight());
 			sum += pair.average * pair.size;
 			size += pair.size;
 
 		}
 		if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
-			AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-					node.getRight());
+			AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getRight());
 			sum += pair.average * pair.size;
 			size += pair.size;
 
@@ -188,8 +189,7 @@ public class BinarySearchTree {
 
 	private int numOfPointsInRange(int XLeft, int XRight, Node node) {
 		// Fully contains range
-		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft
-				&& node.getRight() != null
+		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft && node.getRight() != null
 				&& node.getRight().getMaxVal() <= XRight) {
 			return node.getLeftSize() + node.getRightSize() + 1;
 		}
