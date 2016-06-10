@@ -118,6 +118,7 @@ public class PointDataStructure implements PDT {
 			
 			// Get floor(k - 1/2) points from larger than median
 			medianPoints.merge(largerPoints.getMinMaxValues((k - 1) / 2));
+			//medianPoints.merge(largerPoints.getMinMaxValues((k / 2) -1));
 		}
 		
 		return medianPoints.toArray();

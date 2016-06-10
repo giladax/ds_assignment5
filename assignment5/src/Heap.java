@@ -69,8 +69,12 @@ public abstract class Heap {
 					.getConstructor(int.class).newInstance((num + Constants.EXTRA_SIZE));
 			temp.add(arr[0]);
 			while (i < num) {
-				temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
-				temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
+				if (arr[Left(temp.arr[0].getIndex())]!=null) {
+					temp.add(new PointIndexPair(temp.arr[Left(temp.arr[0].getIndex())]));
+				}
+				if (arr[Right(temp.arr[0].getIndex())]!=null) {
+					temp.add(new PointIndexPair(temp.arr[Right(temp.arr[0].getIndex())]));
+				}
 				result.add(temp.extract()); 
 				i++;
 			}

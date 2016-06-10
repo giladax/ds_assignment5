@@ -51,9 +51,9 @@ public class LinkedList implements Iterable<Point> {
 	}
 
 	public Point[] toArray() {
-		Point[] result = new Point[size];
+		Point[] result = new Point[size+1];
 		int index = 0;
-
+		
 		for (Point p : this) {
 			result[index] = new Point(p);
 			index++;
