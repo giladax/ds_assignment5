@@ -16,12 +16,12 @@ public class LinkedList implements Iterable<Point> {
 		if (head == null) {
 			head = new Link(p);
 			tail = head;
-			size = 1;
 		} else {
 			tail.setNext(new Link(p));
 			tail = tail.getNext();
-			size++;
 		}
+		
+		size++;
 	}
 
 	// Get item at index
@@ -43,6 +43,7 @@ public class LinkedList implements Iterable<Point> {
 		if (other.size > 0) {
 			tail.setNext(other.head);
 			tail = other.tail;
+			size += other.size;
 		}
 	}
 
@@ -51,7 +52,7 @@ public class LinkedList implements Iterable<Point> {
 	}
 
 	public Point[] toArray() {
-		Point[] result = new Point[size+1];
+		Point[] result = new Point[size];
 		int index = 0;
 		
 		for (Point p : this) {
