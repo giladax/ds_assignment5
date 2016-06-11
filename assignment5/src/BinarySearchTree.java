@@ -199,7 +199,10 @@ public class BinarySearchTree {
 	}
 
 	private int numOfPointsInRange(int XLeft, int XRight, Node node) {
+		
 		// Fully contains range
+		if (node!=null) {
+			
 		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft
 				&& node.getRight() != null
 				&& node.getRight().getMaxVal() <= XRight) {
@@ -221,7 +224,9 @@ public class BinarySearchTree {
 
 		return size;
 	}
-
+		return 0;
+	}
+	
 	private static class AverageSizePair {
 		public double average = 0;
 		public int size = 0;

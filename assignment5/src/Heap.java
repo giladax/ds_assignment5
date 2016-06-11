@@ -37,6 +37,7 @@ public abstract class Heap {
 	}
 
 	private void add(PointIndexPair p) {
+		
 		if (add(p.getpPoint())) {
 			arr[size - 1].setIndex(p.getIndex());
 		}
@@ -67,8 +68,9 @@ public abstract class Heap {
 		try {
 			Heap temp = (Heap) Class.forName(this.getClass().getName())
 					.getConstructor(int.class).newInstance((num + Constants.EXTRA_SIZE));
-			temp.add(arr[0]);
+			temp.add(new PointIndexPair(arr[0].getpPoint(),0));
 			while (i < num) {
+				if (!(temp.isEmpty())) {
 				if (arr[Left(temp.arr[0].getIndex())]!=null) {
 					temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())]));
 				}
@@ -76,6 +78,7 @@ public abstract class Heap {
 					temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())]));
 				}
 				result.add(temp.extract()); 
+				}
 				i++;
 			}
 		} catch (InstantiationException | IllegalAccessException
@@ -136,5 +139,8 @@ public abstract class Heap {
 		PointIndexPair tmp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = tmp;
+	}
+	public boolean isEmpty(){
+		return arr[0]==null;
 	}
 }
