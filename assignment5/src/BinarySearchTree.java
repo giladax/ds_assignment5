@@ -218,6 +218,7 @@ public class BinarySearchTree {
 		if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
 			size = numOfPointsInRange(XLeft, XRight, node.getRight());
 		}
+		// TODO this line is probably wrong, Y values has nothing to do with this method!
 		if (node.getValue().getY() >= XLeft && node.getValue().getY() <= XRight) {
 			size++;
 		}

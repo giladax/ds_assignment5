@@ -10,7 +10,10 @@ public class Node {
 	private int rightSize;
 	private int minVal;
 	private int maxVal;
-
+	/*
+	private int maxXvalue;
+	private int minXvalue;
+	*/
 	public Node(Point p, Node parent) {
 		value = p;
 		this.parent = parent;
