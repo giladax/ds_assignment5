@@ -156,10 +156,8 @@ public class BinarySearchTree {
 
 	private AverageSizePair averageHeightInRange(int XLeft, int XRight,
 			Node node) {
-		// Fully contains range
-		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft
-				&& node.getRight() != null
-				&& node.getRight().getMaxVal() <= XRight) {
+		// Full overlap
+		if (node.getMinVal() >= XLeft && node.getMaxVal() <= XRight) {
 			return new AverageSizePair((node.getLeftAverage()
 					* node.getLeftSize() + node.getRightAverage()
 					* node.getRightSize() + node.getValue().getY())
@@ -170,28 +168,47 @@ public class BinarySearchTree {
 		double sum = 0;
 		int size = 0;
 
-		// Right bound is smaller than right subtree min value
-		if (node.getRight() != null && XRight >= node.getRight().getMinVal()) {
-			AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-					node.getRight());
-			sum += pair.average * pair.size;
-			size += pair.size;
+		// Partial overlap
+		if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
+				|| (XRight <= node.getMaxVal() && XRight >= node.getMinVal())) {
+			if (node.getLeft() != null) {
+				AverageSizePair pair = averageHeightInRange(XLeft, XRight,
+						node.getLeft());
+				sum += pair.average * pair.size;
+				size += pair.size;
+			}
+			if (node.getRight() != null) {
+				AverageSizePair pair = averageHeightInRange(XLeft, XRight,
+						node.getRight());
+				sum += pair.average * pair.size;
+				size += pair.size;
 
+			}
+			if (node.getValue().getX() >= XLeft
+					&& node.getValue().getX() <= XRight) {
+				sum += node.getValue().getY();
+				size++;
+			}
 		}
-		if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
-			AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-					node.getLeft());
-			sum += pair.average * pair.size;
-			size += pair.size;
-
+		if (size != 0) {
+			return new AverageSizePair(sum / size, size);
+		} else {
+			return new AverageSizePair(0, 0);
 		}
-		if (node.getValue().getY() >= XLeft && node.getValue().getY() <= XRight) {
-			sum += node.getValue().getY();
-			size++;
-		}
-
-		return new AverageSizePair(sum / size, size);
 	}
+
+	/*
+	 * 
+	 * if (node.getRight() != null && XRight >= node.getRight().getMinVal()) {
+	 * AverageSizePair pair = averageHeightInRange(XLeft, XRight,
+	 * node.getRight()); sum += pair.average * pair.size; size += pair.size;
+	 * 
+	 * } if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
+	 * AverageSizePair pair = averageHeightInRange(XLeft, XRight,
+	 * node.getLeft()); sum += pair.average * pair.size; size += pair.size;
+	 * 
+	 * } }
+	 */
 
 	public int numOfPointsInRange(int XLeft, int XRight) {
 
@@ -202,13 +219,13 @@ public class BinarySearchTree {
 
 		// Fully contains range
 		if (node != null) {
-
+			// Total overlap
 			if (node.getMinVal() >= XLeft && node.getMaxVal() <= XRight) {
 				return node.getLeftSize() + node.getRightSize() + 1;
 			}
 
 			int size = 0;
-
+			// Partial overlap
 			if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
 					|| (XRight <= node.getMaxVal() && XRight >= node
 							.getMinVal())) {
