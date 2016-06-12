@@ -113,22 +113,22 @@ public class BinarySearchTree {
 			LinkedList list) {
 		// Add node in range
 		if (node != null) {
-			
-		if (XLeft <= node.getValue().getX()
-				&& XRight >= node.getValue().getX()) {
-			list.add(node.getValue());
-		}
 
-		// Check left child if XLeft is smaller than node
-		if (XLeft < node.getValue().getX()) {
-			getPointsInRange(XLeft, XRight, node.getLeft(), list);
-		}
+			if (XLeft <= node.getValue().getX()
+					&& XRight >= node.getValue().getX()) {
+				list.add(node.getValue());
+			}
 
-		// Check right child if XRight is larger than node
-		if (XRight > node.getValue().getX()) {
-			getPointsInRange(XLeft, XRight, node.getRight(), list);
+			// Check left child if XLeft is smaller than node
+			if (XLeft < node.getValue().getX()) {
+				getPointsInRange(XLeft, XRight, node.getLeft(), list);
+			}
+
+			// Check right child if XRight is larger than node
+			if (XRight > node.getValue().getX()) {
+				getPointsInRange(XLeft, XRight, node.getRight(), list);
+			}
 		}
-	}
 	}
 
 	public Point[] toArray() {
@@ -199,35 +199,48 @@ public class BinarySearchTree {
 	}
 
 	private int numOfPointsInRange(int XLeft, int XRight, Node node) {
-		
+
 		// Fully contains range
-		if (node!=null) {
-			
-		if (node.getLeft() != null && node.getLeft().getMinVal() >= XLeft
-				&& node.getRight() != null
-				&& node.getRight().getMaxVal() <= XRight) {
-			return node.getLeftSize() + node.getRightSize() + 1;
-		}
+		if (node != null) {
 
-		int size = 0;
+			if (node.getMinVal() >= XLeft && node.getMaxVal() <= XRight) {
+				return node.getLeftSize() + node.getRightSize() + 1;
+			}
 
-		// Right bound is smaller than right subtree min value
-		if (node.getRight() != null && XRight >= node.getRight().getMinVal()) {
-			size += numOfPointsInRange(XLeft, XRight, node.getRight());
-		}
-		if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
-			size = numOfPointsInRange(XLeft, XRight, node.getRight());
-		}
-		// TODO this line is probably wrong, Y values has nothing to do with this method!
-		if (node.getValue().getY() >= XLeft && node.getValue().getY() <= XRight) {
-			size++;
-		}
+			int size = 0;
 
-		return size;
-	}
+			if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
+					|| (XRight <= node.getMaxVal() && XRight >= node
+							.getMinVal())) {
+				if (node.getLeft() != null) {
+					size += numOfPointsInRange(XLeft, XRight, node.getLeft());
+				}
+				if (node.getRight() != null) {
+					size += numOfPointsInRange(XLeft, XRight, node.getRight());
+				}
+				if (node.getValue().getX() >= XLeft
+						&& node.getValue().getX() <= XRight)
+					size++;
+				return size;
+			}
+
+			// Right bound is smaller than right subtree min valueF
+			/*
+			 * if (node.getRight() != null && XRight >=
+			 * node.getRight().getMinVal()) { size += numOfPointsInRange(XLeft,
+			 * XRight, node.getRight()); } if (node.getLeft() != null && XLeft
+			 * <= node.getLeft().getMaxVal()) { size = numOfPointsInRange(XLeft,
+			 * XRight, node.getRight()); } // TODO this line is probably wrong,
+			 * Y values has nothing to do with this method!
+			 * 
+			 * if (node.getValue().getY() >= XLeft && node.getValue().getY() <=
+			 * XRight) { size++; }
+			 */
+
+		}
 		return 0;
 	}
-	
+
 	private static class AverageSizePair {
 		public double average = 0;
 		public int size = 0;

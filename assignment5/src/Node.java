@@ -10,10 +10,7 @@ public class Node {
 	private int rightSize;
 	private int minVal;
 	private int maxVal;
-	/*
-	private int maxXvalue;
-	private int minXvalue;
-	*/
+	
 	public Node(Point p, Node parent) {
 		value = p;
 		this.parent = parent;
@@ -22,7 +19,7 @@ public class Node {
 		leftSize = 0;
 		rightSize = 0;
 	}
-
+	//TODO changed! maxVal = x
 	public void updateNode() {
 		// Update all fields depending on subtrees
 		if (right != null) {
@@ -31,7 +28,7 @@ public class Node {
 			rightSize = right.rightSize + 1 + right.leftSize;
 			maxVal = right.maxVal;
 		} else {
-			maxVal = value.getY();
+			maxVal = value.getX();
 		}
 
 		if (left != null) {
@@ -40,7 +37,7 @@ public class Node {
 			leftSize = left.rightSize + 1 + left.leftSize;
 			minVal = left.minVal;
 		} else {
-			minVal = value.getY();
+			minVal = value.getX();
 		}
 	}
 
