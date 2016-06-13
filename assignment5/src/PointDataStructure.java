@@ -57,7 +57,7 @@ public class PointDataStructure implements PDT {
 	@Override
 	public void addPoint(Point point) {
 		// Handle Y adding
-		if (median.getY() > point.getY()) {
+		if (median.getY() <= point.getY()) {
 			largerPoints.add(point);
 		} else {
 			smallerPoints.add(point);

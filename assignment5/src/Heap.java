@@ -20,8 +20,9 @@ public abstract class Heap {
 			arr[idx] = new PointIndexPair(p, idx);
 			idx++;
 		}
-
-		buildHeap();
+		// changed
+		size = idx;
+		this.buildHeap();
 	}
 
 	public boolean add(Point p) {
@@ -37,7 +38,7 @@ public abstract class Heap {
 	}
 
 	private void add(PointIndexPair p) {
-		
+
 		if (add(p.getpPoint())) {
 			arr[size - 1].setIndex(p.getIndex());
 		}
@@ -49,10 +50,10 @@ public abstract class Heap {
 		int right = Right(i);
 		int largest = i;
 
-		if (left < size && isRelationInvalid(arr[left], arr[i])) {
+		if (left < size && isRelationInvalid(arr[left], arr[largest])) {
 			largest = left;
 		}
-		if (right < size && isRelationInvalid(arr[right], arr[i])) {
+		if (right < size && isRelationInvalid(arr[right], arr[largest])) {
 			largest = right;
 		}
 		if (largest != i) {
@@ -60,24 +61,27 @@ public abstract class Heap {
 			heapify(largest);
 		}
 	}
-	
+
 	public LinkedList getMinMaxValues(int num) {
 		int i = 0;
 		LinkedList result = new LinkedList();
-	
+
 		try {
 			Heap temp = (Heap) Class.forName(this.getClass().getName())
-					.getConstructor(int.class).newInstance((num + Constants.EXTRA_SIZE));
-			temp.add(new PointIndexPair(arr[0].getpPoint(),0));
+					.getConstructor(int.class)
+					.newInstance((num + Constants.EXTRA_SIZE));
+			temp.add(new PointIndexPair(arr[0].getpPoint(), 0));
 			while (i < num) {
 				if (!(temp.isEmpty())) {
-				if (arr[Left(temp.arr[0].getIndex())]!=null) {
-					temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())]));
-				}
-				if (arr[Right(temp.arr[0].getIndex())]!=null) {
-					temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())]));
-				}
-				result.add(temp.extract()); 
+					if (arr.length >= Left(temp.arr[0].getIndex())
+							&& arr[Left(temp.arr[0].getIndex())] != null) {
+						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getpPoint(),Left(temp.arr[0].getIndex())));
+					}
+					if (arr.length >= Right(temp.arr[0].getIndex())
+							&& arr[Right(temp.arr[0].getIndex())] != null) {
+						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getpPoint(),Right(temp.arr[0].getIndex())));
+					}
+					result.add(temp.extract());
 				}
 				i++;
 			}
@@ -102,7 +106,8 @@ public abstract class Heap {
 		}
 	}
 
-	public abstract boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent);
+	public abstract boolean isRelationInvalid(PointIndexPair child,
+			PointIndexPair parent);
 
 	public Point extract() {
 		PointIndexPair max = arr[0];
@@ -118,7 +123,7 @@ public abstract class Heap {
 	}
 
 	private void buildHeap() {
-		for (int i = arr.length / 2; i >= 0; i--) {
+		for (int i = size / 2; i >= 0; i--) {
 			heapify(i);
 		}
 	}
@@ -140,7 +145,8 @@ public abstract class Heap {
 		arr[i] = arr[j];
 		arr[j] = tmp;
 	}
-	public boolean isEmpty(){
-		return arr[0]==null;
+
+	public boolean isEmpty() {
+		return arr[0] == null;
 	}
 }
