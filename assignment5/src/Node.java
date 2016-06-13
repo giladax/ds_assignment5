@@ -18,6 +18,8 @@ public class Node {
 		rightAverage = 0;
 		leftSize = 0;
 		rightSize = 0;
+		maxVal = p.getX();
+		minVal = p.getX();
 	}
 	//TODO changed! maxVal = x
 	public void updateNode() {
