@@ -26,22 +26,26 @@ public abstract class Heap {
 	}
 
 	public boolean add(Point p) {
+		// Add a new point, disregard index value
+		return add(p, -1);
+	}
+	
+	private boolean add(Point p, int i) {
+		// Add new point, set its index
 		if (size < arr.length) {
-			arr[size] = new PointIndexPair(p, size);
+			arr[size] = new PointIndexPair(p, i);
 			sift(size);
 			size++;
 
 			return true;
 		}
 
-		return false;
+		return false;		
 	}
 
 	private void add(PointIndexPair p) {
-
-		if (add(p.getpPoint())) {
-			arr[size - 1].setIndex(p.getIndex());
-		}
+		// Add point, regard its given index
+		add(p.getPoint(), p.getIndex());
 	}
 
 	// Maintain heap properties
@@ -70,16 +74,16 @@ public abstract class Heap {
 			Heap temp = (Heap) Class.forName(this.getClass().getName())
 					.getConstructor(int.class)
 					.newInstance((num + Constants.EXTRA_SIZE));
-			temp.add(new PointIndexPair(arr[0].getpPoint(), 0));
+			temp.add(new PointIndexPair(arr[0].getPoint(), 0));
 			while (i < num) {
 				if (!(temp.isEmpty())) {
-					if (arr.length >= Left(temp.arr[0].getIndex())
+					if (arr.length > Left(temp.arr[0].getIndex())
 							&& arr[Left(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getpPoint(),Left(temp.arr[0].getIndex())));
+						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getPoint(),Left(temp.arr[0].getIndex())));
 					}
-					if (arr.length >= Right(temp.arr[0].getIndex())
+					if (arr.length > Right(temp.arr[0].getIndex())
 							&& arr[Right(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getpPoint(),Right(temp.arr[0].getIndex())));
+						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getPoint(),Right(temp.arr[0].getIndex())));
 					}
 					result.add(temp.extract());
 				}
@@ -115,7 +119,7 @@ public abstract class Heap {
 		arr[size - 1] = null;
 		size--;
 		heapify(0);
-		return max.getpPoint();
+		return max.getPoint();
 	}
 
 	public int getSize() {

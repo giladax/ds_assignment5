@@ -10,7 +10,7 @@ public class PointIndexPair {
 		this.p = new Point(other.p);
 		this.i = other.i;
 	}
-	public Point getpPoint(){
+	public Point getPoint(){
 		return this.p;
 	}
 	public int getIndex(){

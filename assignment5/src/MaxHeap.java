@@ -10,10 +10,10 @@ public class MaxHeap extends Heap {
 
 	@Override
 	public boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent) {
-		int cY = child.getpPoint().getY();
-		int pY = parent.getpPoint().getY();
-		int cX = child.getpPoint().getX();
-		int pX = parent.getpPoint().getX();
+		int cY = child.getPoint().getY();
+		int pY = parent.getPoint().getY();
+		int cX = child.getPoint().getX();
+		int pX = parent.getPoint().getX();
 		return (cY > pY) || (cY == pY && cX > pX);
 	}
 
