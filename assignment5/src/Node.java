@@ -30,7 +30,10 @@ public class Node {
 			rightSize = right.rightSize + 1 + right.leftSize;
 			maxVal = right.maxVal;
 		} else {
+			// No right child. Default values
 			maxVal = value.getX();
+			rightAverage = 0;
+			rightSize = 0;
 		}
 
 		if (left != null) {
@@ -39,7 +42,10 @@ public class Node {
 			leftSize = left.rightSize + 1 + left.leftSize;
 			minVal = left.minVal;
 		} else {
+			// No left child. Default values
 			minVal = value.getX();
+			leftAverage = 0;
+			leftSize = 0;
 		}
 	}
 

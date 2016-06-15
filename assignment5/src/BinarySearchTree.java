@@ -211,12 +211,10 @@ public class BinarySearchTree {
 	 */
 
 	public int numOfPointsInRange(int XLeft, int XRight) {
-
 		return numOfPointsInRange(XLeft, XRight, root);
 	}
 
 	private int numOfPointsInRange(int XLeft, int XRight, Node node) {
-
 		// Fully contains range
 		if (node != null) {
 			// Total overlap
@@ -225,6 +223,7 @@ public class BinarySearchTree {
 			}
 
 			int size = 0;
+			
 			// Partial overlap
 			if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
 					|| (XRight <= node.getMaxVal() && XRight >= node
