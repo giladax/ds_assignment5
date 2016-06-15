@@ -1,0 +1,16 @@
+Rick;250;264
+Morty;426;237
+Mr PoopyButthole;508;281
+Jerry;483;114
+Sleepy Jerry;375;243
+Beth;623;197
+Summer;534;436
+Mr Beauregard;708;246
+Hamurai;486;89
+Frankenstein;165;234
+Photography Raptor;121;247
+Tinkles;492;450
+Baby Wizard;212;322
+Amish Cyborg;24;367
+Reverse Girraffe;582;450
+Ghost in a Jar;356;329
