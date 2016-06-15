@@ -1,4 +1,3 @@
-
 public class PointDataStructure implements PDT {
 
 	private Point median;
@@ -6,7 +5,7 @@ public class PointDataStructure implements PDT {
 	private MinHeap largerPoints;
 	private BinarySearchTree xvalues;
 
-	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
+	// ////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public PointDataStructure(Point[] points, Point initialYMedianPoint) {
 		median = new Point(initialYMedianPoint);
 		Point[] sortedXvalues = new Point[points.length];
@@ -39,10 +38,11 @@ public class PointDataStructure implements PDT {
 			if (points[i].equals(median)) {
 				continue;
 			}
-			
+
 			// If Y is smaller than median (or Y is equal but X is smaller)
 			if ((points[i].getY() < median.getY())
-					|| (points[i].getY() == median.getY() && points[i].getX() < median.getX())) {
+					|| (points[i].getY() == median.getY() && points[i].getX() < median
+							.getX())) {
 				lessThanMed.add(points[i]);
 			} else {
 				moreThanMed.add(points[i]);
@@ -68,7 +68,7 @@ public class PointDataStructure implements PDT {
 			smallerPoints.add(median);
 			median = largerPoints.extract();
 		}
-		if (largerPoints.getSize() + 1 < smallerPoints.getSize()) {
+		if (1 < smallerPoints.getSize() - largerPoints.getSize()) {
 			largerPoints.add(median);
 			median = smallerPoints.extract();
 		}
@@ -109,17 +109,17 @@ public class PointDataStructure implements PDT {
 	@Override
 	public Point[] getMedianPoints(int k) {
 		LinkedList medianPoints = new LinkedList();
-		
+
 		if (k > 0) {
 			medianPoints.add(new Point(median));
-			
+
 			// Get floor(k / 2) points from smaller than median
 			medianPoints.merge(smallerPoints.getMinMaxValues(k / 2));
-			
+
 			// Get floor(k - 1/2) points from larger than median
 			medianPoints.merge(largerPoints.getMinMaxValues((k - 1) / 2));
 		}
-		
+
 		return medianPoints.toArray();
 	}
 
