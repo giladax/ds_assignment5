@@ -235,25 +235,15 @@ public class BinarySearchTree {
 					size += numOfPointsInRange(XLeft, XRight, node.getRight());
 				}
 				if (node.getValue().getX() >= XLeft
-						&& node.getValue().getX() <= XRight)
+						&& node.getValue().getX() <= XRight) 
+				{
 					size++;
+				}
+				
 				return size;
 			}
-
-			// Right bound is smaller than right subtree min valueF
-			/*
-			 * if (node.getRight() != null && XRight >=
-			 * node.getRight().getMinVal()) { size += numOfPointsInRange(XLeft,
-			 * XRight, node.getRight()); } if (node.getLeft() != null && XLeft
-			 * <= node.getLeft().getMaxVal()) { size = numOfPointsInRange(XLeft,
-			 * XRight, node.getRight()); } // TODO this line is probably wrong,
-			 * Y values has nothing to do with this method!
-			 * 
-			 * if (node.getValue().getY() >= XLeft && node.getValue().getY() <=
-			 * XRight) { size++; }
-			 */
-
 		}
+		
 		return 0;
 	}
 
