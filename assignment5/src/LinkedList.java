@@ -65,31 +65,6 @@ public class LinkedList implements Iterable<Point> {
 
 	@Override
 	public Iterator<Point> iterator() {
-		return new ListIterator();
-	}
-
-	// Iterator for list
-	private class ListIterator implements Iterator<Point> {
-		private Link curr;
-
-		public ListIterator() {
-			curr = LinkedList.this.head;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return curr != null;
-		}
-
-		@Override
-		public Point next() {
-			if (hasNext()) {
-				Link result = curr;
-				curr = curr.getNext();
-				return result.getValue();
-			}
-
-			return null;
-		}
+		return new ListIterator(head);
 	}
 }

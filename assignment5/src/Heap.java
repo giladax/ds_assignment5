@@ -74,42 +74,43 @@ public abstract class Heap {
 		int i = 0;
 		LinkedList result = new LinkedList();
 
-		try {
-			// Create temp heap of the same type as this heap
-			Heap temp = (Heap) Class.forName(this.getClass().getName()).getConstructor(int.class)
-					.newInstance((num + Constants.EXTRA_SIZE));
-			temp.add(new PointIndexPair(arr[0].getPoint(), 0));
+		// Create temp heap of the same type as this heap
+		// Heap temp = (Heap) Class.forName(this.getClass().getName()).getConstructor(int.class).newInstance((num + Constants.EXTRA_SIZE));
+		Heap temp = getCurrentHeap(num + Constants.EXTRA_SIZE);
+		temp.add(new PointIndexPair(arr[0].getPoint(), 0));
 
-			while (i < num) {
-				// Add children of current top node in heap, extract it and add it to the result
-				if (!(temp.isEmpty())) {
-					if (arr.length > Left(temp.arr[0].getIndex()) && arr[Left(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getPoint(),
-								Left(temp.arr[0].getIndex())));
-					}
-
-					if (arr.length > Right(temp.arr[0].getIndex()) && arr[Right(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getPoint(),
-								Right(temp.arr[0].getIndex())));
-					}
-					
-					result.add(temp.extract());
+		while (i < num) {
+			// Add children of current top node in heap, extract it and add it
+			// to the result
+			if (!(temp.isEmpty())) {
+				if (arr.length > Left(temp.arr[0].getIndex()) && arr[Left(temp.arr[0].getIndex())] != null) {
+					temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getPoint(),
+							Left(temp.arr[0].getIndex())));
 				}
 
-				i++;
+				if (arr.length > Right(temp.arr[0].getIndex()) && arr[Right(temp.arr[0].getIndex())] != null) {
+					temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getPoint(),
+							Right(temp.arr[0].getIndex())));
+				}
+
+				result.add(temp.extract());
 			}
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-			e.printStackTrace();
+
+			i++;
 		}
 
-		return result;
+	return result;
+
+	}
+
+	private Heap getCurrentHeap(int n) {
+		return (this instanceof MaxHeap) ? new MaxHeap(n) : new MinHeap(n);
 	}
 
 	// Reorganize heap climbing up to the root to correct validity of node keys
 	public void sift(int i) {
 		int parentIndex;
-		
+
 		if (i != 0) {
 			parentIndex = Parent(i);
 			if (isRelationInvalid(arr[i], arr[parentIndex])) {
@@ -121,7 +122,8 @@ public abstract class Heap {
 
 	public abstract boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent);
 
-	// Extract extreme (top) value, replace it with successor and reorganize heap
+	// Extract extreme (top) value, replace it with successor and reorganize
+	// heap
 	public Point extract() {
 		PointIndexPair extreme = arr[0];
 		swap(arr, 0, size - 1);
