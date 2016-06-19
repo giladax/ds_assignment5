@@ -6,8 +6,7 @@ public class BinarySearchTree {
 		buildTree(points, root, points.length / 2, 0, points.length);
 	}
 
-	private void buildTree(Point[] points, Node node, int curr, int left,
-			int right) {
+	private void buildTree(Point[] points, Node node, int curr, int left, int right) {
 		// If has children
 		if (left != right) {
 			int leftChild = left + (curr - left) / 2;
@@ -54,52 +53,25 @@ public class BinarySearchTree {
 		node.updateNode();
 	}
 
-	public void remove(Point toRemove) {
-		if (root.getValue().getX() == toRemove.getX()) {
-			if (root.getRight() != null) {
-				root = root.getRight();
-			} else if (root.getLeft() != null) {
-				root = root.getLeft();
-			} else {
-				root = null;
-			}
-		} else {
-			remove(toRemove, root);
-		}
-	}
+	public boolean remove(Point toRemove) {
+		int value = toRemove.getX();
 
-	private void remove(Point toRemove, Node node) {
-		// Attempt removal of given point
-		if (node.getValue().getX() == toRemove.getX()) {
-			// First try replacing node with right child, then left, then remove
-			// self
-			if (node.getRight() != null) {
-				if (node.getParent().getLeft() == node) {
-					node.getParent().setLeft(node.getRight());
-				} else {
-					node.getParent().setRight(node.getRight());
-				}
-			} else if (node.getLeft() != null) {
-				if (node.getParent().getLeft() == node) {
-					node.getParent().setLeft(node.getLeft());
-				} else {
-					node.getParent().setRight(node.getLeft());
-				}
+		if (root == null)
+			return false;
+		else {
+			// Handle root removal. Update node when done
+			if (root.getValue().getX() == value) {
+				// Create a temporal father for the root to remove
+				Node auxRoot = new Node(new Point(0, 0), null);
+				auxRoot.setLeft(root);
+				boolean result = root.remove(value, auxRoot);
+				root = auxRoot.getLeft();
+				root.updateNode();
+				return result;
 			} else {
-				if (node.getParent().getLeft() == node) {
-					node.getParent().setLeft(null);
-				} else {
-					node.getParent().setRight(null);
-				}
+				return root.remove(value, null);
 			}
-		} else if (node.getValue().getX() > toRemove.getX()) {
-			remove(toRemove, node.getLeft());
-		} else if (node.getValue().getX() < toRemove.getX()) {
-			remove(toRemove, node.getRight());
 		}
-
-		// Update nodes in path from new leaf to root
-		node.updateNode();
 	}
 
 	public Point[] getPointsInRange(int XLeft, int XRight) {
@@ -109,13 +81,11 @@ public class BinarySearchTree {
 		return points.toArray();
 	}
 
-	private void getPointsInRange(int XLeft, int XRight, Node node,
-			LinkedList list) {
+	private void getPointsInRange(int XLeft, int XRight, Node node, LinkedList list) {
 		// Add node in range
 		if (node != null) {
 
-			if (XLeft <= node.getValue().getX()
-					&& XRight >= node.getValue().getX()) {
+			if (XLeft <= node.getValue().getX() && XRight >= node.getValue().getX()) {
 				list.add(node.getValue());
 			}
 
@@ -154,14 +124,12 @@ public class BinarySearchTree {
 		return averageHeightInRange(XLeft, XRight, root).average;
 	}
 
-	private AverageSizePair averageHeightInRange(int XLeft, int XRight,
-			Node node) {
+	private AverageSizePair averageHeightInRange(int XLeft, int XRight, Node node) {
 		// Full overlap
-		if (node.getMinVal() >= XLeft && node.getMaxVal() <= XRight) {
-			return new AverageSizePair((node.getLeftAverage()
-					* node.getLeftSize() + node.getRightAverage()
-					* node.getRightSize() + node.getValue().getY())
-					/ (node.getLeftSize() + node.getRightSize() + 1),
+		if (node.getMinVal().getX() >= XLeft && node.getMaxVal().getX() <= XRight) {
+			return new AverageSizePair(
+					(node.getLeftAverage() * node.getLeftSize() + node.getRightAverage() * node.getRightSize()
+							+ node.getValue().getY()) / (node.getLeftSize() + node.getRightSize() + 1),
 					node.getRightSize() + node.getLeftSize() + 1);
 		}
 
@@ -169,23 +137,20 @@ public class BinarySearchTree {
 		int size = 0;
 
 		// Partial overlap
-		if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
-				|| (XRight <= node.getMaxVal() && XRight >= node.getMinVal())) {
+		if ((XLeft >= node.getMinVal().getX() && XLeft <= node.getMaxVal().getX())
+				|| (XRight <= node.getMaxVal().getX() && XRight >= node.getMinVal().getX())) {
 			if (node.getLeft() != null) {
-				AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-						node.getLeft());
+				AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getLeft());
 				sum += pair.average * pair.size;
 				size += pair.size;
 			}
 			if (node.getRight() != null) {
-				AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-						node.getRight());
+				AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getRight());
 				sum += pair.average * pair.size;
 				size += pair.size;
 
 			}
-			if (node.getValue().getX() >= XLeft
-					&& node.getValue().getX() <= XRight) {
+			if (node.getValue().getX() >= XLeft && node.getValue().getX() <= XRight) {
 				sum += node.getValue().getY();
 				size++;
 			}
@@ -197,19 +162,6 @@ public class BinarySearchTree {
 		}
 	}
 
-	/*
-	 * 
-	 * if (node.getRight() != null && XRight >= node.getRight().getMinVal()) {
-	 * AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-	 * node.getRight()); sum += pair.average * pair.size; size += pair.size;
-	 * 
-	 * } if (node.getLeft() != null && XLeft <= node.getLeft().getMaxVal()) {
-	 * AverageSizePair pair = averageHeightInRange(XLeft, XRight,
-	 * node.getLeft()); sum += pair.average * pair.size; size += pair.size;
-	 * 
-	 * } }
-	 */
-
 	public int numOfPointsInRange(int XLeft, int XRight) {
 		return numOfPointsInRange(XLeft, XRight, root);
 	}
@@ -218,32 +170,29 @@ public class BinarySearchTree {
 		// Fully contains range
 		if (node != null) {
 			// Total overlap
-			if (node.getMinVal() >= XLeft && node.getMaxVal() <= XRight) {
+			if (node.getMinVal().getX() >= XLeft && node.getMaxVal().getX() <= XRight) {
 				return node.getLeftSize() + node.getRightSize() + 1;
 			}
 
 			int size = 0;
-			
+
 			// Partial overlap
-			if ((XLeft >= node.getMinVal() && XLeft <= node.getMaxVal())
-					|| (XRight <= node.getMaxVal() && XRight >= node
-							.getMinVal())) {
+			if ((XLeft >= node.getMinVal().getX() && XLeft <= node.getMaxVal().getX())
+					|| (XRight <= node.getMaxVal().getX() && XRight >= node.getMinVal().getX())) {
 				if (node.getLeft() != null) {
 					size += numOfPointsInRange(XLeft, XRight, node.getLeft());
 				}
 				if (node.getRight() != null) {
 					size += numOfPointsInRange(XLeft, XRight, node.getRight());
 				}
-				if (node.getValue().getX() >= XLeft
-						&& node.getValue().getX() <= XRight) 
-				{
+				if (node.getValue().getX() >= XLeft && node.getValue().getX() <= XRight) {
 					size++;
 				}
-				
+
 				return size;
 			}
 		}
-		
+
 		return 0;
 	}
 

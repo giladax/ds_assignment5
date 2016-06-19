@@ -1,27 +1,25 @@
 
 public class Node {
 	private Point value;
+	private Point minVal;
+	private Point maxVal;
 	private Node left;
 	private Node right;
-	private Node parent;
 	private double leftAverage;
 	private double rightAverage;
 	private int leftSize;
 	private int rightSize;
-	private int minVal;
-	private int maxVal;
-	
+
 	public Node(Point p, Node parent) {
 		value = p;
-		this.parent = parent;
 		leftAverage = 0;
 		rightAverage = 0;
 		leftSize = 0;
 		rightSize = 0;
-		maxVal = p.getX();
-		minVal = p.getX();
+		maxVal = p;
+		minVal = p;
 	}
-	//TODO changed! maxVal = x
+
 	public void updateNode() {
 		// Update all fields depending on subtrees
 		if (right != null) {
@@ -31,7 +29,7 @@ public class Node {
 			maxVal = right.maxVal;
 		} else {
 			// No right child. Default values
-			maxVal = value.getX();
+			maxVal = value;
 			rightAverage = 0;
 			rightSize = 0;
 		}
@@ -43,25 +41,73 @@ public class Node {
 			minVal = left.minVal;
 		} else {
 			// No left child. Default values
-			minVal = value.getX();
+			minVal = value;
 			leftAverage = 0;
 			leftSize = 0;
 		}
 	}
 
-	public int getMinVal() {
+	// Node removal. Update when done
+	public boolean remove(int value, Node parent) {
+		if (value < this.value.getX()) {
+			// Check left subtree
+			if (left != null) {
+				boolean res = left.remove(value, this);
+				
+				// Update node if child was removed
+				if (res) {
+					updateNode();
+				}
+				return res;
+			}
+			else
+				return false;
+		} else if (value > this.value.getX()) {
+			// Check right subtree
+			if (right != null) {
+				boolean res = right.remove(value, this);
+				
+				// Update node if child was removed
+				if (res) {
+					updateNode();
+				}
+				return res;
+			}
+			else
+				return false;
+		} else {
+			// Remove node. Replace value with successor and update the nodes
+			if (left != null && right != null) {
+				this.value = right.getMinVal();
+				right.remove(this.value.getX(), this);
+			} else if (parent.left == this) {
+				// Node is left son, replace it with its single son 
+				parent.left = (left != null) ? left : right;
+			} else if (parent.right == this) {
+				// Node is right son, replace it with its single son
+				parent.right = (left != null) ? left : right;
+			}
+			
+			// Finally update node
+			updateNode();
+
+			return true;
+		}
+	}
+
+	public Point getMinVal() {
 		return minVal;
 	}
 
-	public void setMinVal(int minVal) {
+	public void setMinVal(Point minVal) {
 		this.minVal = minVal;
 	}
 
-	public int getMaxVal() {
+	public Point getMaxVal() {
 		return maxVal;
 	}
 
-	public void setMaxVal(int maxVal) {
+	public void setMaxVal(Point maxVal) {
 		this.maxVal = maxVal;
 	}
 
@@ -96,15 +142,7 @@ public class Node {
 	public void setRightSize(int rightSize) {
 		this.rightSize = rightSize;
 	}
-
-	public Node getParent() {
-		return parent;
-	}
-
-	public void setParent(Node parent) {
-		this.parent = parent;
-	}
-
+	
 	public Point getValue() {
 		return value;
 	}

@@ -3,7 +3,7 @@ public class PointDataStructure implements PDT {
 	private Point median;
 	private MaxHeap smallerPoints;
 	private MinHeap largerPoints;
-	private BinarySearchTree xvalues;
+	public BinarySearchTree xvalues;
 
 	// ////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public PointDataStructure(Point[] points, Point initialYMedianPoint) {
@@ -68,7 +68,8 @@ public class PointDataStructure implements PDT {
 			smallerPoints.add(median);
 			median = largerPoints.extract();
 		}
-		if (1 < smallerPoints.getSize() - largerPoints.getSize()) {
+		
+		if (smallerPoints.getSize() - largerPoints.getSize() > 1) {
 			largerPoints.add(median);
 			median = smallerPoints.extract();
 		}
