@@ -1,4 +1,5 @@
 
+// Linked list Link class
 public class Link {
 	private Point value;
 	private Link next;

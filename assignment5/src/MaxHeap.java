@@ -8,6 +8,7 @@ public class MaxHeap extends Heap {
 		super(capacity);
 	}
 
+	// Lexicographic verification of relation validity
 	@Override
 	public boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent) {
 		int cY = child.getPoint().getY();

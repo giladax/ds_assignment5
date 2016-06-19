@@ -11,8 +11,7 @@ public abstract class Heap {
 
 	public Heap(LinkedList list) {
 		size = list.size();
-		this.arr = new PointIndexPair[size
-				+ (int) (Constants.EXTRA_SIZE * Math.log(size))];
+		this.arr = new PointIndexPair[size + (int) (Constants.EXTRA_SIZE * Math.log(size))];
 		int idx = 0;
 
 		// Deep copy array
@@ -29,7 +28,7 @@ public abstract class Heap {
 		// Add a new point, disregard index value
 		return add(p, -1);
 	}
-	
+
 	private boolean add(Point p, int i) {
 		// Add new point, set its index
 		if (size < arr.length) {
@@ -40,7 +39,7 @@ public abstract class Heap {
 			return true;
 		}
 
-		return false;		
+		return false;
 	}
 
 	private void add(PointIndexPair p) {
@@ -52,55 +51,65 @@ public abstract class Heap {
 	public void heapify(int i) {
 		int left = Left(i);
 		int right = Right(i);
-		int largest = i;
+		int extreme = i;
 
-		if (left < size && isRelationInvalid(arr[left], arr[largest])) {
-			largest = left;
+		// Change extreme value if parent-son relation is invalid
+		if (left < size && isRelationInvalid(arr[left], arr[extreme])) {
+			extreme = left;
 		}
-		if (right < size && isRelationInvalid(arr[right], arr[largest])) {
-			largest = right;
+
+		if (right < size && isRelationInvalid(arr[right], arr[extreme])) {
+			extreme = right;
 		}
-		if (largest != i) {
-			swap(arr, i, largest);
-			heapify(largest);
+
+		// Swap and heapify again if relation needs to change
+		if (extreme != i) {
+			swap(arr, i, extreme);
+			heapify(extreme);
 		}
 	}
 
+	// Return "num" min/max values of heap
 	public LinkedList getMinMaxValues(int num) {
 		int i = 0;
 		LinkedList result = new LinkedList();
 
 		try {
-			Heap temp = (Heap) Class.forName(this.getClass().getName())
-					.getConstructor(int.class)
+			// Create temp heap of the same type as this heap
+			Heap temp = (Heap) Class.forName(this.getClass().getName()).getConstructor(int.class)
 					.newInstance((num + Constants.EXTRA_SIZE));
 			temp.add(new PointIndexPair(arr[0].getPoint(), 0));
+
 			while (i < num) {
+				// Add children of current top node in heap, extract it and add it to the result
 				if (!(temp.isEmpty())) {
-					if (arr.length > Left(temp.arr[0].getIndex())
-							&& arr[Left(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getPoint(),Left(temp.arr[0].getIndex())));
+					if (arr.length > Left(temp.arr[0].getIndex()) && arr[Left(temp.arr[0].getIndex())] != null) {
+						temp.add(new PointIndexPair(arr[Left(temp.arr[0].getIndex())].getPoint(),
+								Left(temp.arr[0].getIndex())));
 					}
-					if (arr.length > Right(temp.arr[0].getIndex())
-							&& arr[Right(temp.arr[0].getIndex())] != null) {
-						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getPoint(),Right(temp.arr[0].getIndex())));
+
+					if (arr.length > Right(temp.arr[0].getIndex()) && arr[Right(temp.arr[0].getIndex())] != null) {
+						temp.add(new PointIndexPair(arr[Right(temp.arr[0].getIndex())].getPoint(),
+								Right(temp.arr[0].getIndex())));
 					}
+					
 					result.add(temp.extract());
 				}
+
 				i++;
 			}
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException
-				| ClassNotFoundException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		return result;
 	}
 
+	// Reorganize heap climbing up to the root to correct validity of node keys
 	public void sift(int i) {
 		int parentIndex;
+		
 		if (i != 0) {
 			parentIndex = Parent(i);
 			if (isRelationInvalid(arr[i], arr[parentIndex])) {
@@ -110,22 +119,23 @@ public abstract class Heap {
 		}
 	}
 
-	public abstract boolean isRelationInvalid(PointIndexPair child,
-			PointIndexPair parent);
+	public abstract boolean isRelationInvalid(PointIndexPair child, PointIndexPair parent);
 
+	// Extract extreme (top) value, replace it with successor and reorganize heap
 	public Point extract() {
-		PointIndexPair max = arr[0];
+		PointIndexPair extreme = arr[0];
 		swap(arr, 0, size - 1);
 		arr[size - 1] = null;
 		size--;
 		heapify(0);
-		return max.getPoint();
+		return extreme.getPoint();
 	}
 
 	public int getSize() {
 		return this.size;
 	}
 
+	// Build valid heap from array in O(n)
 	private void buildHeap() {
 		for (int i = size / 2; i >= 0; i--) {
 			heapify(i);

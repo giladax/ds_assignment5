@@ -68,6 +68,7 @@ public class LinkedList implements Iterable<Point> {
 		return new ListIterator();
 	}
 
+	// Iterator for list
 	private class ListIterator implements Iterator<Point> {
 		private Link curr;
 

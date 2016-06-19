@@ -102,6 +102,7 @@ public class BinarySearchTree {
 	}
 
 	public Point[] toArray() {
+		// Return a list of all points in BST in O(n)
 		LinkedList list = new LinkedList();
 		toArray(list, root);
 
@@ -109,6 +110,7 @@ public class BinarySearchTree {
 	}
 
 	private void toArray(LinkedList list, Node node) {
+		// Append nodes to list in order
 		if (node.getLeft() != null) {
 			toArray(list, node.getLeft());
 		}
@@ -127,6 +129,7 @@ public class BinarySearchTree {
 	private AverageSizePair averageHeightInRange(int XLeft, int XRight, Node node) {
 		// Full overlap
 		if (node.getMinVal().getX() >= XLeft && node.getMaxVal().getX() <= XRight) {
+			// Return average of entire subtree
 			return new AverageSizePair(
 					(node.getLeftAverage() * node.getLeftSize() + node.getRightAverage() * node.getRightSize()
 							+ node.getValue().getY()) / (node.getLeftSize() + node.getRightSize() + 1),
@@ -139,6 +142,7 @@ public class BinarySearchTree {
 		// Partial overlap
 		if ((XLeft >= node.getMinVal().getX() && XLeft <= node.getMaxVal().getX())
 				|| (XRight <= node.getMaxVal().getX() && XRight >= node.getMinVal().getX())) {
+			// Attempt to add averages of either subtree and/or self
 			if (node.getLeft() != null) {
 				AverageSizePair pair = averageHeightInRange(XLeft, XRight, node.getLeft());
 				sum += pair.average * pair.size;
@@ -179,6 +183,7 @@ public class BinarySearchTree {
 			// Partial overlap
 			if ((XLeft >= node.getMinVal().getX() && XLeft <= node.getMaxVal().getX())
 					|| (XRight <= node.getMaxVal().getX() && XRight >= node.getMinVal().getX())) {
+				// Attempt to count either subtree and/or self
 				if (node.getLeft() != null) {
 					size += numOfPointsInRange(XLeft, XRight, node.getLeft());
 				}

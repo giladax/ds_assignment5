@@ -20,8 +20,8 @@ public class Node {
 		minVal = p;
 	}
 
+	// Update all fields depending on subtrees
 	public void updateNode() {
-		// Update all fields depending on subtrees
 		if (right != null) {
 			rightAverage = (right.rightAverage * right.rightSize + right.value.getY()
 					+ right.leftAverage * right.leftSize) / (double) (right.rightSize + 1 + right.leftSize);
