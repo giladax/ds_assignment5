@@ -1,5 +1,3 @@
-import java.lang.reflect.InvocationTargetException;
-
 public abstract class Heap {
 	protected PointIndexPair[] arr;
 	protected int size;
